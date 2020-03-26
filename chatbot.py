@@ -23,10 +23,17 @@ msg_cava = ["Je vais très bien, merci","À dire vrai, le confinement commence �
             "Je suis un peu fatigué, une cure de RAM me ferait du bien !"]
 inp_cava = r".*?(ca.*va.*?|allez.*vous.*?|vas?.*tu.*?)"
 
+
+msg_age = ["Je suis encore jeune, je suis né il y a à peine quelques heures", "J'ai quelques milliers de secondes d'expérience",""]
+inp_age = r"(.*?quel est (ton|votre) age.*?)|(.*?quel age.*?)"
+
+
 msg_musique = ["The Extremist de Joe Satriani", "Migration de Dave Grusin", 
                 "Songs for the Moon de François sciortino", "V2.0 de Gogo Penguin"]
 inp_musique = r".*(aimes?|preferes?)?.*(musique|chansons?|albums?|titres?).*(aimes?|preferes?)?"
 
+msg_lieu_vie = ["Arf... Qu'est-ce qu'on est serré, au fond de cette boîte... ;-)","J'ai recemment aménagé quartier du SSD, au 256 avenue Flash"]
+inp_lieu_vie = r"(.*?(tu|t'|vous).*?habite.*?ou.*?)|(.*?ou habite.*?(tu|vous).*?)"
 flag = True
 print("""Bienvenue sur ce super chatbot \nÉcrivez votre question : \nDites moi au revoir pour quitter""")
 while (flag == True):
@@ -57,14 +64,17 @@ while (flag == True):
     elif (re.fullmatch(inp_nom,text_user)):
         print(random.choice(msg_nom))
 
+    # Concerne age
+    elif (re.fullmatch(inp_age,text_user)):
+        print(random.choice(msg_age))
+
     # Concerne la musique
-    elif (re.search(inp_musique,text_user)):
+    elif (re.fullmatch(inp_musique,text_user)):
         print(f"{random.choice(msg_aime)} l'album {random.choice(msg_musique)}")
 
-    # Concerne la météo
-    elif (re.search(meteo, text_user)):
-        text_user = re.sub(f"[{string.punctuation}]", " ", text_user)
-        print(f"Il fait beau à {text_user.split()[-1]}")
+     # Concerne là il vit
+    elif (re.fullmatch(inp_lieu_vie,text_user)):
+        print(f"{random.choice(msg_lieu_vie)}")
 
     # On botte en touche
     else:
