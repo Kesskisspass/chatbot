@@ -3,6 +3,15 @@ import re
 import random
 import string
 
+# Fonction nettoyage input user
+def input_cleaner(text_user):
+    text_user = text_user.lower()
+    text_user = re.sub(r'[éèê]','e',text_user)
+    text_user = re.sub(r'[ù]','u',text_user)
+    text_user = re.sub(r'[àâ]','a',text_user)
+    text_user = re.sub(r'[ç]','c',text_user)
+    return text_user
+
 msg_aime = [
 "J'aime beaucoup",
 "J'apprécie particulièrement",
@@ -10,37 +19,42 @@ msg_aime = [
 ]
 
 good_bye = r"au revoir|quit|ciao|hasta la vista|à \+"
-msg_bot = ["salut!", "à bientôt", "à très vite!","ciao ciao"]
+msg_bot = ["Au revoir!", "à bientôt", "à très vite!","ciao ciao"]
 
-msg_restez = ["Restez chez vous", "Restez chez vous, combien de fois dois-je le dire",
-              "vous allez rester chez-vous oui?"]
+msg_restez = [
+"Restez chez vous", 
+"Restez chez vous, combien de fois dois-je le dire",
+"vous allez rester chez-vous oui?"
+]
 
 meteo = r"quel temps fait-il à .*?|.*météo à .*?"
 
 msg_salutation = [
-"Bonjour","Salut",
+"Bonjour",
+"Salut",
 "Quel plaisir de pouvoir discuter un peu avec vous",
-"iep"
+"iep",
+"Egun On"
 ]
 inp_salut = r"bonjour.*?|salut.*?|.ep.*?|yo.*?|coucou.*?"
 
-msg_nom = ["Je m'appelle GatuBot"]
+msg_nom = ["Je m'appelle GatuBot, (indice \"gatu\" c'est \"chat\" en basque"]
 inp_nom = r"comment tu t'appelles?\??|.*(ton|votre) nom\??"
 
 msg_cava = [
 "Je vais très bien, merci",
 "À dire vrai, le confinement commence à me taper sur le système",
-"Je suis un peu fatigué, une cure de RAM me ferait du bien !"
+"Je suis un peu fatigué ces temps-ci, une cure de RAM me ferait du bien !"
 ]
 inp_cava = r".*?(ca.*va.*?|allez.*vous.*?|vas?.*tu.*?)"
 
-
+# TODO: ajouter un calcul en jours/heures/minutes avec datetime
 msg_age = [
 "Je suis encore jeune, je suis né il y a à peine quelques heures",
-"J'ai quelques milliers de secondes d'expérience",""
+"J'ai quelques milliers de secondes d'expérience",
+""
 ]
 inp_age = r"(.*?quel est (ton|votre) age.*?)|(.*?quel age.*?)"
-
 
 msg_musique = [
 "The Extremist de Joe Satriani", 
@@ -50,7 +64,8 @@ msg_musique = [
 ]
 inp_musique = r".*(aimes?|preferes?)?.*(musique|chansons?|albums?|titres?).*(aimes?|preferes?)?"
 
-msg_lieu_vie = ["Arf... Qu'est-ce qu'on est serré, au fond de cette boîte... ;-)","J'ai recemment aménagé quartier du SSD, au 256 avenue Flash"]
+msg_lieu_vie = ["Arf... Qu'est-ce qu'on est serré, au fond de cette boîte... ;-)",
+"J'ai recemment aménagé quartier du SSD, au 256 avenue Flash"]
 inp_lieu_vie = r"(.*?(tu|t'|vous).*?habite.*?ou.*?)|(.*?ou habite.*?(tu|vous).*?)"
 
 msg_occupation = [
@@ -65,13 +80,8 @@ print("""Bienvenue sur ce super chatbot \nÉcrivez votre question : \nDites moi 
 while (flag == True):
     text_user = input("> ")
 
-    # Processing de l'entrée utilisateur
-    # TODO: à mettre dans une fonction
-    text_user = text_user.lower()
-    text_user = re.sub(r'[éèê]','e',text_user)
-    text_user = re.sub(r'[ù]','u',text_user)
-    text_user = re.sub(r'[àâ]','a',text_user)
-    text_user = re.sub(r'[ç]','c',text_user)
+    # Processing entrée utilisateur
+    text_user = input_cleaner(text_user)
 
     # Pour quitter le chatbot
     if (re.search(good_bye, text_user)):
