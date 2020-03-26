@@ -14,6 +14,9 @@ def input_cleaner(text_user):
     text_user = re.sub(r'[ç]','c',text_user)
     return text_user
 
+# On peut stocker certaines infos de l'utilisateur dans un dictionnaire
+user = {}
+
 msg_aime = [
 "J'aime beaucoup",
 "J'apprécie particulièrement",
@@ -40,7 +43,7 @@ msg_salutation = [
 ]
 inp_salut = r"bonjour.*?|salut.*?|.ep.*?|yo.*?|coucou.*?"
 
-msg_nom = ["Je m'appelle GatuBot, (indice \"gatu\" c'est \"chat\" en basque"]
+msg_nom = ["Je m'appelle GatuBot, (indice \"gatu\" c'est \"chat\" en basque)\nEt toi ?"]
 inp_nom = r"comment tu t'appelles?\??|.*(ton|votre) nom\??"
 
 msg_cava = [
@@ -68,7 +71,7 @@ inp_musique = r".*(aimes?|preferes?)?.*(musique|chansons?|albums?|titres?).*(aim
 
 msg_lieu_vie = ["Arf... Qu'est-ce qu'on est serré, au fond de cette boîte... ;-)",
 "J'ai recemment aménagé quartier du SSD, au 256 avenue Flash"]
-inp_lieu_vie = r"(.*?(tu|t'|vous).*?habite.*?ou.*?)|(.*?ou habite.*?(tu|vous).*?)"
+inp_lieu_vie = r"(.*?(tu|t'|vous).*?(habite|vi).*?ou.*?)|(.*?ou (habite|vi).*?(tu|vous).*?)"
 
 msg_occupation = [
 "Je lis du code sur StackOverFlow",
@@ -99,11 +102,12 @@ while (flag == True):
         print(random.choice(msg_cava))
         text_user = input("> ")
         blob = TextBlob(text_user, analyzer=PatternAnalyzer())
-        if (blob.sentiment[0] > 0.5):
+        user['humeur'] = blob.sentiment[0]
+        if (user['humeur'] > 0.5):
             print("Ah ça me fait plaisir de lire ça ! :-D")
-        elif (blob.sentiment[0] > 0):
+        elif (user['humeur'] > 0):
             print("Et demain ça ira encore mieux :-)")
-        elif (blob.sentiment[0] > -0.5):
+        elif (user['humeur'] > -0.5):
             print("Y'a des jours comme ça... :-/")
         else:
             print("Et si on parlait de musique plutôt ? :-(")
@@ -111,6 +115,8 @@ while (flag == True):
     # concerne nom
     elif (re.fullmatch(inp_nom,text_user)):
         print(random.choice(msg_nom))
+        user['name'] = input("> ")
+        print(f"Enchanté {user['name']}")
 
     # Concerne age
     elif (re.fullmatch(inp_age,text_user)):
@@ -131,3 +137,6 @@ while (flag == True):
     # On botte en touche
     else:
         print(random.choice(msg_restez))
+
+
+print("Pour débug: ",user)
