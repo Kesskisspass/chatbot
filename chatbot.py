@@ -44,7 +44,7 @@ msg_salutation = [
 inp_salut = r"bonjour.*?|salut.*?|.ep.*?|yo.*?|coucou.*?"
 
 msg_nom = ["Je m'appelle GatuBot, (indice \"gatu\" c'est \"chat\" en basque)\nEt toi ?"]
-inp_nom = r"comment tu t'appelles?\??|.*(ton|votre) nom\??"
+inp_nom = r"(.*?tu t'app?elles?.*?)|(.*(ton|votre) nom\??.*?)"
 
 msg_cava = [
 "Je vais très bien, merci. Et vous ?",
