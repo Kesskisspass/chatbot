@@ -2,6 +2,8 @@
 import re
 import random
 import string
+from textblob import TextBlob
+from textblob_fr import PatternAnalyzer
 
 # Fonction nettoyage input user
 def input_cleaner(text_user):
@@ -42,9 +44,9 @@ msg_nom = ["Je m'appelle GatuBot, (indice \"gatu\" c'est \"chat\" en basque"]
 inp_nom = r"comment tu t'appelles?\??|.*(ton|votre) nom\??"
 
 msg_cava = [
-"Je vais très bien, merci",
-"À dire vrai, le confinement commence à me taper sur le système",
-"Je suis un peu fatigué ces temps-ci, une cure de RAM me ferait du bien !"
+"Je vais très bien, merci. Et vous ?",
+"À dire vrai, le confinement commence à me taper sur le système.\nMais assez parlé de moi, comment allez VOUS ?",
+"Je suis un peu fatigué ces temps-ci, une cure de RAM me ferait du bien !\nEt toi, ça farte ?"
 ]
 inp_cava = r".*?(ca.*va.*?|allez.*vous.*?|vas?.*tu.*?)"
 
@@ -95,6 +97,16 @@ while (flag == True):
     # concerne ça va ?
     elif (re.fullmatch(inp_cava,text_user)):
         print(random.choice(msg_cava))
+        text_user = input("> ")
+        blob = TextBlob(text_user, analyzer=PatternAnalyzer())
+        if (blob.sentiment[0] > 0.5):
+            print("Ah ça me fait plaisir de lire ça ! :-D")
+        elif (blob.sentiment[0] > 0):
+            print("Et demain ça ira encore mieux :-)")
+        elif (blob.sentiment[0] > -0.5):
+            print("Y'a des jours comme ça... :-/")
+        else:
+            print("Et si on parlait de musique plutôt ? :-(")
 
     # concerne nom
     elif (re.fullmatch(inp_nom,text_user)):
